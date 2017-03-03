@@ -3,7 +3,14 @@ FROM node:7-slim
 MAINTAINER Patrick Scott <pat@patscott.io>
 
 # Global install yarn package manager
+RUN useradd --user-group --create-home --shell /bin/false app
+
 RUN apt-get update && apt-get install -y curl apt-transport-https && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn git-core
+
+RUN mkdir /usr/src/service/
+RUN chown -R app:app /usr/src/service/
+
+USER app
