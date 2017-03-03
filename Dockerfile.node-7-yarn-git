@@ -1,5 +1,10 @@
-FROM node:7-slim
+FROM ubuntu
+MAINTAINER David Weinstein <david@bitjudo.com>
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
-  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
-  && sudo apt-get update && sudo apt-get install yarn git-core
+# install our dependencies and nodejs
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list \
+  && apt-get update
+  && apt-get -y install python-software-properties git build-essential \
+  && add-apt-repository -y ppa:chris-lea/node.js \
+  && apt-get update \
+  && apt-get -y install nodejs yarn git-core
